@@ -18,23 +18,27 @@ public class PlayerScript : MonoBehaviour
         const float moveSpeed = 1.0f;
         const float jumpSpeed = 6.0f;
         Vector3 v = Rb.velocity;
-        if(UnityEngine.Input.GetKey(KeyCode.RightArrow))
+
+        if (GoalScript.isGameClear == false)
         {
-            v.x = moveSpeed;   
+            if (UnityEngine.Input.GetKey(KeyCode.RightArrow))
+            {
+                v.x = moveSpeed;
+            }
+            else if (UnityEngine.Input.GetKey(KeyCode.LeftArrow))
+            {
+                v.x = -moveSpeed;
+            }
+            else
+            {
+                v.x = 0;
+            }
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
+            {
+                v.y = jumpSpeed;
+            }
+            Rb.velocity = v;
         }
-        else if(UnityEngine.Input.GetKey(KeyCode.LeftArrow))
-        {
-            v.x = -moveSpeed;
-        }
-        else if(UnityEngine.Input.GetKeyDown(KeyCode.Space))
-        {
-            v.y = jumpSpeed;
-        }
-        else
-        {
-            v.x = 0;
-        }
-        Rb.velocity = v;
     }
 
 }
