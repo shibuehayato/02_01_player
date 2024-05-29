@@ -2,13 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManagerScript : MonoBehaviour
 {
+    public TextMeshProUGUI scoreText;
+    public static int score = 0;
+
     int[,] map;
 
     public GameObject block;
     public GameObject Goal;
+    public GameObject coin;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,12 +23,12 @@ public class GameManagerScript : MonoBehaviour
         {
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
             {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,},
-            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,1,},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,},
             {1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,},
             {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,},
             {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,},
             {1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,},
-            {1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+            {1,0,0,3,0,0,0,1,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,1,0,0,0,3,0,2,1,},
             {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,},
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
         };
@@ -46,9 +51,15 @@ public class GameManagerScript : MonoBehaviour
                 {
                     Goal.transform.position = position;
                 }
+
+                // ÉRÉCÉì
+                if (map[y,x]==3)
+                {
+                    Instantiate(coin, position, Quaternion.identity);
+                }
+
             }
         }
-
     }
 
     // Update is called once per frame
@@ -61,5 +72,7 @@ public class GameManagerScript : MonoBehaviour
                 SceneManager.LoadScene("TitleScene");
             }
         }
+
+        scoreText.text = "SCORE" + score;
     }
 }
