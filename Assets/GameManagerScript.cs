@@ -8,10 +8,13 @@ public class GameManagerScript : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
     public static int score = 0;
+    public GameObject goalParticle;
 
     int[,] map;
+    int[,] map2;
 
     public GameObject block;
+    public GameObject block2;
     public GameObject Goal;
     public GameObject coin;
     // Start is called before the first frame update
@@ -33,6 +36,19 @@ public class GameManagerScript : MonoBehaviour
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
         };
 
+        map2 = new int[,]
+       {
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
+       };
 
         Vector3 position = Vector3.zero;
 
@@ -50,6 +66,7 @@ public class GameManagerScript : MonoBehaviour
                 if (map[y,x] == 2)
                 {
                     Goal.transform.position = position;
+                    goalParticle.transform.position = position;
                 }
 
                 // ÉRÉCÉì
@@ -58,6 +75,19 @@ public class GameManagerScript : MonoBehaviour
                     Instantiate(coin, position, Quaternion.identity);
                 }
 
+            }
+        }
+
+        Vector3 position2 = Vector3.zero;
+
+        for (int y = 0; y < map2.GetLength(0); y++)
+        {
+            for (int x = 0; x < map2.GetLength(1); x++)
+            {
+                position2.x = x;
+                position2.y = - y + 5;
+                position2.z = 3;
+                Instantiate(block2, position2, Quaternion.identity);
             }
         }
     }

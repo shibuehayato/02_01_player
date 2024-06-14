@@ -8,11 +8,14 @@ public class PlayerScript : MonoBehaviour
     public Rigidbody Rb;
     private bool isBlock = true;
     private AudioSource audioSource;
+    public GameObject bombParticle;
+    public Animator animator;
     // Start is called before the first frame update
     void Start()
     {
         audioSource = gameObject.GetComponent<AudioSource>();
         GameManagerScript.score = 0;
+        transform.rotation = Quaternion.Euler(0, 90, 0);
     }
 
     // Update is called once per frame
@@ -22,10 +25,12 @@ public class PlayerScript : MonoBehaviour
         const float jumpSpeed = 6.0f;
         Vector3 v = Rb.velocity;
 
+        float stick = UnityEngine.Input.GetAxis("Horizontal");
+
         //プレイヤーの下方向へレイを出す
-        Vector3 rayPosition = transform.position;
+        Vector3 rayPosition = transform.position + new Vector3(0.0f,0.8f,0.0f);
         Ray ray = new Ray(rayPosition, Vector3.down);
-        float distance = 0.6f;
+        float distance = 0.9f;
         Debug.DrawRay(rayPosition, Vector3.down * distance, Color.red);
 
         isBlock = Physics.Raycast(ray, distance);
@@ -40,25 +45,35 @@ public class PlayerScript : MonoBehaviour
 
         if (GoalScript.isGameClear == false)
         {
-            if (UnityEngine.Input.GetKey(KeyCode.RightArrow))
+            if (UnityEngine.Input.GetKey(KeyCode.LeftArrow) || stick > 0)
             {
                 v.x = moveSpeed;
+                animator.SetBool("walk", true);
+                transform.rotation = Quaternion.Euler(0, 90, 0);
             }
-            else if (UnityEngine.Input.GetKey(KeyCode.LeftArrow))
+            else if (UnityEngine.Input.GetKey(KeyCode.LeftArrow) || stick < 0)
             {
                 v.x = -moveSpeed;
+                animator.SetBool("walk", true);
+                transform.rotation = Quaternion.Euler(0, -90, 0);
             }
             else
             {
                 v.x = 0;
+                animator.SetBool("walk", false);
             }
 
             if (isBlock == true)
             {
-                if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
+                animator.SetBool("jump", false);
+                if (UnityEngine.Input.GetButtonDown("Jump"))
                 {
                     v.y = jumpSpeed;
                 }
+            }
+            else
+            {
+                animator.SetBool("jump", true);
             }
             Rb.velocity = v;
         }
@@ -72,6 +87,9 @@ public class PlayerScript : MonoBehaviour
             audioSource.Play();
             GameManagerScript.score += 1;
         }
+
+        //  爆発パーティクル
+        Instantiate(bombParticle, transform.position, Quaternion.identity);
     }
 
 }
