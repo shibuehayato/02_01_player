@@ -45,7 +45,7 @@ public class PlayerScript : MonoBehaviour
 
         if (GoalScript.isGameClear == false)
         {
-            if (UnityEngine.Input.GetKey(KeyCode.LeftArrow) || stick > 0)
+            if (UnityEngine.Input.GetKey(KeyCode.RightArrow) || stick > 0)
             {
                 v.x = moveSpeed;
                 animator.SetBool("walk", true);
